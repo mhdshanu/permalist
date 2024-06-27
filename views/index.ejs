@@ -1,0 +1,49 @@
+<%- include('partials/header.ejs'); -%> <!--EJS Partials(header is imported)-->
+
+  <div class="box" id="heading">
+    <h1>
+      <%= listTitle %>
+    </h1>
+  </div>
+  <div class="box">
+    <% for(let item of listItems){%>    <!-- looping through all items of listItems, so that each element in items gets displayed as below -->
+      <div class="item">   
+        <form action="/delete" method="post">   <!--creating a form in each element with a post method in /delete route-->
+          <input type="checkbox" onchange="this.form.submit()" name="deleteItemId" value="<%= item.id %>">  <!--  onchange = this.form.submit means the form gets submitted when checkbox is checked  -->
+        </form>
+
+        <p id="title<%=item.id%>">  <!-- set the id of the title, the id of the title selected from items  -->
+          <%= item.title %>   <!--  Displaying the title element of that particular id Eg: Buy milk -->
+        </p>
+
+        <form class="edit" action="/edit" method="post">  <!--Still inside the loop, /edit endpoint. When clicked, it has to edit the title -->
+          <input type="hidden" name="updatedItemId" value="<%= item.id %>">  <!--Creates an input tht is hidden to the user nd its value is id from the items-->
+          <input id="input<%=item.id%>" type="text" name="updatedItemTitle" value="<%= item.title %>" autocomplete="off" 
+            autofocus="true" hidden="true" />  <!--Displays title from items when clicked on /edit route-->
+          <button id="done<%=item.id%>" class="edit" type="submit" hidden><img class="icon"
+              src="/assets/icons/check-solid.svg" alt="tick image"></button>   <!--After editing, we can click the check icon so that it gets submitted-->
+        </form>
+        <button id="edit<%=item.id%>" class="edit" onclick="handler('<%=item.id%>')"><img class="icon" 
+            src="/assets/icons/pencil-solid.svg" alt="pencil image"></button> <!--This is the pencil icon to click to edit
+            Also when clicked the handler function will be called. Thats what onclick = "handler('=item.id%" means-->
+      </div>
+      <% } %>
+
+        <form class="item" action="/add" method="post"> <!--Adding a new item,comes from here-->
+          <input type="text" name="newItem" placeholder="New Item" autocomplete="off" autofocus="true" /> <!--Text area to type title of items-->
+          <button class="add" type="submit" name="list" value=<%=listTitle %> >+</button> <!--Button to click to submit-->
+        </form>
+  </div>
+
+  <script>
+    function handler(id) {
+      document.getElementById("title" + id).setAttribute("hidden", true) 
+      document.getElementById("edit" + id).setAttribute("hidden", true)
+      document.getElementById("done" + id).removeAttribute("hidden")
+      document.getElementById("input" + id).removeAttribute("hidden")    /*What this means is that when edit icon is clicked handler function 
+      will be called with parameter as id of that particular title. It then hides both the pencil icon and the title text("title" + id and "edit" + id)
+       and replace it with the done icon and input field.(They were hidden earlier. now they are visible and others are hidden)
+      */
+    }
+  </script>
+  <%- include('partials/footer.ejs'); -%> <!--EJS Partials(footer is imported)-->
