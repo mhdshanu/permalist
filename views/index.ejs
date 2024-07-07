@@ -10,7 +10,7 @@
       <div class="item">   
         <form action="/delete" method="post">   <!--creating a form in each element with a post method in /delete route-->
           <input type="checkbox" onchange="this.form.submit()" name="deleteItemId" value="<%= item.id %>">  <!--  onchange = this.form.submit means the form gets submitted when checkbox is checked  -->
-        </form>
+        </form> <!--req.body.deleteItemId determines which item got clicked and is done by passing the id as value to index.ejs-->
 
         <p id="title<%=item.id%>">  <!-- set the id of the title, the id of the title selected from items  -->
           <%= item.title %>   <!--  Displaying the title element of that particular id Eg: Buy milk -->
@@ -42,7 +42,7 @@
       document.getElementById("done" + id).removeAttribute("hidden")
       document.getElementById("input" + id).removeAttribute("hidden")    /*What this means is that when edit icon is clicked handler function 
       will be called with parameter as id of that particular title. It then hides both the pencil icon and the title text("title" + id and "edit" + id)
-       and replace it with the done icon and input field.(They were hidden earlier. now they are visible and others are hidden)
+       and replace it with the done icon and input field.(They were hidden earlier. now they are visible and others are hidden) Hi hello how are you
       */
     }
   </script>
